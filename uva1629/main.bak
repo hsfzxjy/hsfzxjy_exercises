@@ -1,16 +1,18 @@
+//WA
 {$R-}
+const INF = maxint div 5;
 var
     f: array [0..20, 0..20, 0..20, 0..20] of integer;
     cherries: array [1..500, 1..2] of integer;
     map: array [0..20, 0..20] of boolean;
-    n, m, i, j, k: integer;
+    n, m, i, k: integer;
 
 function min(x, y: integer): integer; inline;
 begin
     if x<y then exit(x) else exit(y);
 end;
 
-function cherryin(u, d, l, r: integer): integer;
+function cherryin(u, d, l, r: integer): integer; inline;
 var
     i, j: integer;
 begin
@@ -27,7 +29,7 @@ end;
 function dp(u, d, l, r: integer): integer;
 var
     b: integer;
-    i, j: integer;
+    i: integer;
 begin
     if f[u, d, l, r] <> -1 then
         exit(f[u,d , l, r]);
@@ -39,10 +41,10 @@ begin
     end;
     if b = 0 then
     begin
-        f[u, d, l, r] := maxint;
-        exit(maxint);
+        f[u, d, l, r] := INF;
+        exit(INF);
     end;
-    dp := maxint;
+    dp := INF;
     for i := u+1 to d-1 do
         dp := min(dp, dp(u, i, l, r)+dp(i, d, l, r)+d-u);
     for i := l+1 to r-1 do
@@ -57,18 +59,19 @@ begin
     assign(input, 'main.in');reset(input);
     assign(output, 'main.out');rewrite(output);
     _ := 0;
-    while not eof do
+    readln(n, m, k);
+    while n>0 do
     begin
         inc(_);
         fillchar(map, sizeof(map), 0);
         fillchar(f, sizeof(f), -1);
-        readln(n, m, k);
         for i := 1 to k do
         begin
             readln(cherries[i, 1], cherries[i, 2]);
             map[cherries[i, 1], cherries[i, 2]] := true;
         end;
         writeln('Case ',_,': ', dp(0,n,0,m));
+        readln(n, m, k);
     end;
     close(input);close(output);
 end.
