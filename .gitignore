@@ -1,0 +1,6 @@
+fp.dir
+*.exe
+*.bak
+*.o
+fp___.out
+fp___.err
