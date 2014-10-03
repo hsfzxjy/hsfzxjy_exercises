@@ -4,3 +4,7 @@ fp.dir
 *.o
 fp___.out
 fp___.err
+fp.cfg
+fp.dsk
+fp.ini
+tmp*
