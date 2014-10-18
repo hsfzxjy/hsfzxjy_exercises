@@ -1,7 +1,7 @@
 {$inline on}
 type
     TState = packed record
-        code: packed array [1..9] of integer;
+        code: array [1..9] of byte;
         depth: longint;
         x,y: byte;
     end;
@@ -24,19 +24,18 @@ var
     q: array [1..MAXQUEUE] of TState;
     head, tail: longint;
     ans, tmp: longint;
-    target: array [1..9] of integer;
-    maxd, i, j: longint;
+    target: array [1..9] of byte;
+    maxd, i: longint;
     sx, sy: integer;
     ch: char;
     state: TState;
-    ok: boolean;
 
-function IsTarget(st: TState): boolean; //inline;
+function IsTarget(st: TState): boolean; inline;
 var
     i: Integer;
 begin
     for i := 1 to 9 do
-        if (st.code[i] + 1) div 2 <> target[i] then
+        if (st.code[i] + 1) >> 1 <> target[i] then
             exit(False);
     exit(True);
 end;
@@ -62,7 +61,7 @@ begin
         hash := hash * 7 + st.code[i];
 end;
 
-function checkOrInsert(st: TState): boolean; // False for inserted.
+function checkOrInsert(st: TState): boolean; inline; // False for inserted.
 var
     h: Longint;
 begin
@@ -97,13 +96,17 @@ begin
     exit(True);
 end;
 
-function bfs: longint;
+function bfs: longint; inline;
 var
     st: TState;
     dir: integer;
 begin
     if IsTarget(state) then
         exit(0);
+
+    fillchar(ht, sizeof(ht), 0);
+    fillchar(q, sizeof(q), 0);
+
     head := 0;
     tail := 1;
     q[tail] := state;
@@ -115,7 +118,7 @@ begin
         begin
             st := q[head];
             if not move(st, dir) then continue;
-            if st.depth > 30 then exit(-1);
+            if st.depth > 940 then continue;
             if IsTarget(st) then exit(st.depth);
             if not checkOrInsert(st) then continue;
             tail := nextIndex(tail);
@@ -138,7 +141,6 @@ begin
         state.y := sy;
         state.code[makePos(sx, sy)] := 0;
         fillchar(target, sizeof(target), 0);
-        fillchar(ht, sizeof(ht), 0);
 
         for i := 1 to 9 do
         begin
