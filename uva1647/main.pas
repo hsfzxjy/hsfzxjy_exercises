@@ -78,13 +78,12 @@ begin
     while not eof do
     begin
         readln(n);
-        if n = 1 then 
+        if n=1 then
         begin
             writeln(0);
             continue;
         end;
         fillchar(ans, sizeof(ans), 0);
-        len := 0;
         calc2;
         if odd(n) then
             dec(ans[1])
