@@ -1,3 +1,4 @@
+//TLE Score: 70 
 const
     MODN = 99999997;
 type
@@ -5,7 +6,7 @@ type
     TArr = array [1..100000] of rec;
 var
     n: longint;
-    a, b: TArr;
+    a, b, c: TArr;
     ok: Boolean;
     l, r, i, cnt, j: longint;
 
@@ -18,8 +19,8 @@ begin
     j := r;
     m := arr[(i+j) shr 1];
     repeat
-        while arr[i].value > arr[j].value do inc(i);
-        while arr[j].value < arr[j].value do dec(j);
+        while arr[i].value < m.value do inc(i);
+        while arr[j].value > m.value do dec(j);
         if i <= j then
         begin
             t := arr[i];
@@ -51,14 +52,14 @@ begin
     sort(a, 1, n);
     sort(b, 1, n);
 
+    for i := 1 to n do
+        c[a[i].index] := b[i];
+
     cnt := 0;
 
     for i := 1 to n-1 do
         for j := i + 1 to n do
-        begin
-            if a[i].index > a[j].index then cnt := (cnt-1) mod MODN + 1;
-            if b[i].index > b[j].index then cnt := (cnt + 1) mod MODN -1;
-        end;
-    writeln(cnt);
+            if c[i].index > c[j].index then cnt := (cnt+1) mod MODN;
+    writeln(abs(cnt));
     close(input); close(output);
 end.
