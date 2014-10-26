@@ -22,7 +22,7 @@ begin
     k := l;
     while k <= r do 
     begin
-        if (j>r) or (i<=mid) and (a[i]<a[j]) then
+        if (j>r) or (i<=mid) and (a[i]<=a[j]) then
         begin
             tmp[k] := a[i];
             inc(i);
@@ -30,8 +30,6 @@ begin
         else
         begin
             cnt := cnt + mid - i + 1;
-            if (i<=mid) and (a[i] = a[j]) then
-                dec(cnt);
             tmp[k] := a[j];
             inc(j);
         end;
@@ -51,6 +49,7 @@ begin
         write(a[i], ' ');
     end;
     a[10] := a[4];
+    a[3] := a[4];
     writeln(a[10]);
     writeln('Solve 1: ');
     cnt := 0;

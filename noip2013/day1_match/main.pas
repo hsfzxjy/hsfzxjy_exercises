@@ -54,7 +54,7 @@ begin
     k := l;
     while k <= r do 
     begin
-        if (j>r) or (i<=mid) and (c[i].index<c[j].index) then
+        if (j>r) or (i<=mid) and (c[i].index<=c[j].index) then
         begin
             tmp[k] := c[i];
             inc(i);
@@ -62,8 +62,6 @@ begin
         else
         begin
             cnt := cnt + mid - i + 1;
-            if (i<=mid) and (a[i].index = a[j].index) then
-                dec(cnt);
             cnt := cnt mod MODN;
             tmp[k] := c[j];
             inc(j);
