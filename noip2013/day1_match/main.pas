@@ -1,4 +1,4 @@
-//TLE Score: 70 
+//AC
 const
     MODN = 99999997;
 type
@@ -6,9 +6,10 @@ type
     TArr = array [1..100000] of rec;
 var
     n: longint;
-    a, b, c: TArr;
+    a, b, c, tmp: TArr;
     ok: Boolean;
-    l, r, i, cnt, j: longint;
+    l, r, i, j: longint;
+    cnt: int64;
 
 procedure sort(var arr: TArr; l, r: longint);
 var
@@ -34,6 +35,45 @@ begin
     if l < j then sort(arr, l, j);
 end;
 
+
+
+procedure nx(l, r: longint);
+var
+    mid, i, j, k: longint;
+begin
+    if l = r then
+    begin
+        tmp[l] := c[l];
+        exit;
+    end;
+    mid := (l + r) shr 1;
+    nx(l, mid);
+    nx(mid+1, r);
+    i := l;
+    j := mid+1;
+    k := l;
+    while k <= r do 
+    begin
+        if (j>r) or (i<=mid) and (c[i].index<c[j].index) then
+        begin
+            tmp[k] := c[i];
+            inc(i);
+        end
+        else
+        begin
+            cnt := cnt + mid - i + 1;
+            if (i<=mid) and (a[i].index = a[j].index) then
+                dec(cnt);
+            cnt := cnt mod MODN;
+            tmp[k] := c[j];
+            inc(j);
+        end;
+        inc(k);
+    end;
+    for i := l to r do 
+        c[i] := tmp[i];
+end;
+
 begin
     assign(input, 'main.in'); reset(input);
     assign(output, 'main.out'); rewrite(output);
@@ -56,10 +96,8 @@ begin
         c[a[i].index] := b[i];
 
     cnt := 0;
+    nx(1, n);
+    writeln(cnt);
 
-    for i := 1 to n-1 do
-        for j := i + 1 to n do
-            if c[i].index > c[j].index then cnt := (cnt+1) mod MODN;
-    writeln(abs(cnt));
     close(input); close(output);
 end.
