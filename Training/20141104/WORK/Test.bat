@@ -8,7 +8,6 @@ work
 time<nul
 check
 del work.in
-del work.out
 pause
 goto end
 :loop

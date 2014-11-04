@@ -22,7 +22,7 @@ var
 
 label ex;
 begin
-    assign(input, 'work0.in'); reset(input);
+    assign(input, 'work.in'); reset(input);
     assign(output, 'work.out'); rewrite(output);
 
 

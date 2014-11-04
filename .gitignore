@@ -1,5 +1,4 @@
 fp.dir
-*.exe
 *.bak
 *.o
 fp___.out
